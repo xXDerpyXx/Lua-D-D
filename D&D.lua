@@ -156,9 +156,21 @@ function attack()
 			print(enemy["name"].."'s armor is too strong, you did only 1 damage")
 		end
 	elseif string.upper(inv[selItem][2]) == "B" then
-	
+		if (((inv[selItem][1]+(player["str"]-5))+tempRand)-enemy["defb"]) > 0 then
+			enemy["hp"] = enemy["hp"]-(((inv[selItem][1]+(player["str"]-5))+tempRand)-enemy["defb"])
+			print("you did "..(((inv[selItem][1]+(player["str"]-5))+tempRand)-enemy["defb"]).." damage to "..enemy["name"])
+		else
+			enemy["hp"] = enemy["hp"]-1
+			print(enemy["name"].."'s armor is too strong, you did only 1 damage")
+		end
 	elseif string.upper(inv[selItem][2]) == "M" then
-		
+		if (((inv[selItem][1]+(player["int"]-5))+tempRand)-enemy["defm"]) > 0 then
+			enemy["hp"] = enemy["hp"]-(((inv[selItem][1]+(player["int"]-5))+tempRand)-enemy["defm"])
+			print("you did "..(((inv[selItem][1]+(player["int"]-5))+tempRand)-enemy["defm"]).." damage to "..enemy["name"])
+		else
+			enemy["hp"] = enemy["hp"]-1
+			print(enemy["name"].."'s armor is too strong, you did only 1 damage")
+		end
 	end
 	print(enemy["name"].." has "..enemy["hp"].." health left")
 end
