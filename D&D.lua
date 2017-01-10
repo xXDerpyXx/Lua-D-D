@@ -65,14 +65,17 @@ if input =="y" or input == "yes" then
 		player["dex"] = 3
 		player["str"] = 7
 		player["int"] = 3
+		inv["mace"]={5,"B"}
 	elseif string.lower(input) == "mage" then
 		player["dex"] = 3
 		player["str"] = 3
 		player["int"] = 7
+		inv["zap"]={5,"M"}
 	elseif string.lower(input) == "knight" then
 		player["dex"] = 7
 		player["str"] = 3
 		player["int"] = 3
+		inv["sword"]={5,"S"}
 	else
 		goto redoClass
 	end
@@ -90,7 +93,6 @@ if input =="y" or input == "yes" then
 	}
 	assert( table.save( player, "player.lua" ) == nil )
 	inv = {
-	sword={5,"S"},
 	potion={5,"H",3}
 	}
 	assert( table.save( inv, "inventory.lua" ) == nil )
