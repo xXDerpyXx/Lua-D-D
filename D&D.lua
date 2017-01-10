@@ -55,6 +55,14 @@ loadPlayer()
 io.write("\ncreate a new character?\n")
 input = io.read("*line")
 if input =="y" or input == "yes" then
+	player = {
+	hp=15,
+	defs=5,
+	defb=5,
+	defm=5,
+	xp=0,
+	lvl=1
+	}
 	io.write("\nWhat is your name?\n")
 	input = io.read("*line")
 	player["name"] = input
@@ -92,14 +100,7 @@ if input =="y" or input == "yes" then
 	--[[dex=5,
 	str=5,
 	int=5,]]--
-	player = {
-	hp=15,
-	defs=5,
-	defb=5,
-	defm=5,
-	xp=0,
-	lvl=1
-	}
+	
 	assert( table.save( player, "player.lua" ) == nil )
 	assert( table.save( inv, "inventory.lua" ) == nil )
 else
