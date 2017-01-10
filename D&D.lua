@@ -304,7 +304,6 @@ while player["hp"] > 0 do
 			end
 			if string.lower(input)=="help" then
 				help()
-				goto redoPath
 			end
 		end
 		if enemy["hp"] <1 then
