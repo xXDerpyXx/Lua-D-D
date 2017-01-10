@@ -58,8 +58,24 @@ if input =="y" or input == "yes" then
 	io.write("\nWhat is your name?\n")
 	input = io.read("*line")
 	player["name"] = input
+	::redoClass::
 	io.write("\nClass? Brute, Mage, or Knight\n")
-	input = io.read("What is your class?")
+	input = io.read("*line")
+	if string.lower(input) == "brute" then
+		player["dex"] = 3
+		player["str"] = 7
+		player["int"] = 3
+	elseif string.lower(input) == "mage" then
+		player["dex"] = 3
+		player["str"] = 3
+		player["int"] = 7
+	elseif string.lower(input) == "knight" then
+		player["dex"] = 7
+		player["str"] = 3
+		player["int"] = 3
+	else
+		goto redoClass
+	end
 	
 	--[[dex=5,
 	str=5,
