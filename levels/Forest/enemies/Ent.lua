@@ -1,5 +1,5 @@
 return{
-name = "Trash Boat",
+name = "Ent",
 hp = 10,
 defs = 3,
 defb = 5,

@@ -1,3 +1,10 @@
+--[[git do not forget
+git add file
+git commit -m "stuff"
+git push
+]]--
+
+
 dofile("tableSave.lua")
 math.randomseed(os.time())
 function ls(dir)
@@ -25,14 +32,19 @@ function main()
   levels = ls("levels")
   levelEnemies = {}
   enemyNums = {}
+  levelItems={}
   levelCount=0
   for _,level in ipairs(levels) do
 	levelCount=levelCount+1
     levelEnemies[level] = {}
+    levelItems[level] = {}
       -- for each level, read the enemies
       tempNum = 1
     for _,enemy in ipairs(ls("levels/" .. level .. "/enemies")) do
       table.insert(levelEnemies[level], enemy)
+    end
+    for _,item in ipairs(ls("levels/" .. level .. "/items")) do
+      table.insert(levelItems[level], item)
     end
   end
 
@@ -120,6 +132,7 @@ playerINT
 main()
 
 function nextLevel()
+	paces = 0
 	if levelCount == nil or levelCount == 0 then
 		print("ERR: 0 levels found")
 	else
@@ -127,6 +140,7 @@ function nextLevel()
 		print("You have fallen and ended up in the "..currentLevel.."...")
 		level = currentLevel
 	end
+	foundExit = false
 end
 
 function encounter()
@@ -144,6 +158,40 @@ function encounter()
 	print("You have run into a "..enemy["name"].."!")
 	enemyExists = true
 end
+
+function findItem()
+	--print(levelEnemies[level][1])
+	itemFile = nil
+	item = nil
+	while itemFile == nil do
+		tempNum = math.random(1,255)
+		itemFile = levelItems[level][tempNum]
+	end
+	itemFile = string.gsub(itemFile,"%.lua","")
+	--print(enemyFile)
+	--print("levels/"..level.."/enemies/"..enemyFile)
+	item = dofile("levels/"..level.."/items/"..itemFile..".lua")
+	for k,v in pairs(item) do
+		keyItem = tostring(k)
+		p1 = item[k][1]
+		p2 = item[k][2]
+		p3 = item[k][3]
+	end
+	print("You have found a "..keyItem.."!")
+	if inv[keyItem] == nil then
+		inv[keyItem] = {p1,p2,p3}
+	else
+		if p3 ~= nil then
+			inv[keyItem][3] = 1
+		else
+			inv[keyItem][3] = inv[keyItem][3]+1
+			print("You now have "..inv[keyItem][3].." "..keyItem.."s!")
+		end
+	end
+	
+	
+end
+
 
 function attack()
 	tempRand = math.random(1,4)-2
@@ -324,6 +372,9 @@ while player["hp"] > 0 do
 			if string.lower(input)=="help" then
 				help()
 			end
+			if string.lower(input)=="give" then
+				findItem()
+			end
 		end
 		if enemy["hp"] <1 then
 			print("")
@@ -332,6 +383,9 @@ while player["hp"] > 0 do
 			print("you gain "..randXp.."XP")
 			player["xp"] = player["xp"]+randXp
 			print("")
+			if math.random(1,10) == 5 then
+				findItem()
+			end
 		end
 		if player["xp"]>player["lvl"]*100 then
 			player["xp"] = 0
@@ -436,16 +490,15 @@ while player["hp"] > 0 do
 			end
 		end
 		print("")
-		if math.random(1,50) ==25 then
+		if paces > 5 then
 			foundExit = true
-		end
-		if math.random(1,5) == 3 and not foundExit then
+			break
+		elseif math.random(1,5) == 3 and not foundExit then
 			enemyFound = true
 		end
 	end
 	if foundExit then
 		nextLevel()
-		foundExit = false
 	end
 end
 print("you died!")
