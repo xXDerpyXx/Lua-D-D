@@ -66,7 +66,7 @@ if input =="y" or input == "yes" then
 		player["str"] = 7
 		player["int"] = 3
 		inv = {
-			potion={5,"H",3}
+			potion={5,"H",3},
 			mace={5,"B"}
 		}
 	elseif string.lower(input) == "mage" then
@@ -74,7 +74,7 @@ if input =="y" or input == "yes" then
 		player["str"] = 3
 		player["int"] = 7
 		inv = {
-			potion={5,"H",3}
+			potion={5,"H",3},
 			zap={5,"M"}
 		}
 	elseif string.lower(input) == "knight" then
@@ -82,7 +82,7 @@ if input =="y" or input == "yes" then
 		player["str"] = 3
 		player["int"] = 3
 		inv = {
-			potion={5,"H",3}
+			potion={5,"H",3},
 			sword={5,"S"}
 		}
 	else
