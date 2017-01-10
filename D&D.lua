@@ -366,6 +366,19 @@ while player["hp"] > 0 do
 			print("you have "..player["hp"].."HP")
 			goto redoPath
 		end
+		if string.lower(input) == "inv" or string.lower(input) == "inventory" then
+				print("inventory")
+				for k,v in pairs(inv) do
+					if v[3] ~= nil then
+						io.write("   "..tostring(k))
+						io.write(" x "..tostring(v[3]).."\n")
+						
+					else
+						print("   "..tostring(k))
+					end
+				end
+				goto redoPath
+			end
 		if string.lower(input)=="save" then
 			print("Game Saved!")
 			assert( table.save( player, "player.lua" ) == nil )
