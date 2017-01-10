@@ -65,17 +65,26 @@ if input =="y" or input == "yes" then
 		player["dex"] = 3
 		player["str"] = 7
 		player["int"] = 3
-		inv["mace"]={5,"B"}
+		inv = {
+			potion={5,"H",3}
+			mace={5,"B"}
+		}
 	elseif string.lower(input) == "mage" then
 		player["dex"] = 3
 		player["str"] = 3
 		player["int"] = 7
-		inv["zap"]={5,"M"}
+		inv = {
+			potion={5,"H",3}
+			zap={5,"M"}
+		}
 	elseif string.lower(input) == "knight" then
 		player["dex"] = 7
 		player["str"] = 3
 		player["int"] = 3
-		inv["sword"]={5,"S"}
+		inv = {
+			potion={5,"H",3}
+			sword={5,"S"}
+		}
 	else
 		goto redoClass
 	end
@@ -92,9 +101,6 @@ if input =="y" or input == "yes" then
 	lvl=1
 	}
 	assert( table.save( player, "player.lua" ) == nil )
-	inv = {
-	potion={5,"H",3}
-	}
 	assert( table.save( inv, "inventory.lua" ) == nil )
 else
 	player=table.load("player.lua")
