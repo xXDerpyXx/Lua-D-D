@@ -59,7 +59,7 @@ if input =="y" or input == "yes" then
 	input = io.read("*line")
 	player["name"] = input
 	io.write("\nClass? Brute, Mage, or Knight\n")
-	input = io.read(
+	input = io.read("What is your class?")
 	
 	--[[dex=5,
 	str=5,
