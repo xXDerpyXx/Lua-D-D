@@ -66,7 +66,13 @@ end
 loadPlayer()
 io.write("\ncreate a new character?\n")
 input = io.read("*line")
-if input =="y" or input == "yes" then
+if input == "" or input == " " then
+	goto restart
+end
+if input =="y" or input == "yes" or player["name"]==nil then
+	if player["name"] == nil then
+		print("You have no game to load")
+	end
 	player = {
 	hp=15,
 	defs=5,
@@ -75,8 +81,12 @@ if input =="y" or input == "yes" then
 	xp=0,
 	lvl=1
 	}
+	::redoName::
 	io.write("\nWhat is your name?\n")
 	input = io.read("*line")
+	if input == "" or input == " " then
+		goto redoName
+	end
 	player["name"] = input
 	::redoClass::
 	io.write("\nClass? Brute, Mage, or Knight\n")
@@ -506,4 +516,9 @@ io.write("\nretry?\n")
 input = io.read("*line")
 if input == "y" or "yes" then
 	goto restart
+else
+	player = nil
+	inv = nil
+	assert( table.save( player, "player.lua" ) == nil )
+	assert( table.save( inv, "inventory.lua" ) == nil )
 end
