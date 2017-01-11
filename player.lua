@@ -1,15 +1,15 @@
 return {
 -- Table: {1}
 {
-   ["defb"]=5,
    ["defs"]=5,
+   ["name"]="doug",
    ["lvl"]=1,
-   ["xp"]=0,
-   ["int"]=3,
-   ["str"]=7,
-   ["dex"]=3,
-   ["name"]="best around",
+   ["dex"]=7,
    ["defm"]=5,
+   ["int"]=3,
+   ["str"]=3,
+   ["defb"]=5,
+   ["xp"]=0,
    ["hp"]=15,
 },
 }
