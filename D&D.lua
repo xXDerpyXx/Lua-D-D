@@ -360,10 +360,10 @@ end
 
 help()
 nextLevel()
-enemyFount = false
+enemyFound = false
 
 
-while player["hp"] > 0 do
+while player["hp"] > 0 do  --ACTUAL CODE LOOP
 	if enemyFound and not foundExit then
 		encounter()
 	end
@@ -440,7 +440,7 @@ while player["hp"] > 0 do
 			print("there is a path north")
 		end
 		::redoPath::
-		io.write("\nwhich way shall you travel?\n")
+		io.write("\nwhich way shall you travel? Current Paces:"..paces.." "..tostring(foundExit).."\n")
 		input = io.read("*line")
 		if string.lower(input)=="xp" then
 			print("you have "..player["xp"].."XP")
@@ -502,6 +502,7 @@ while player["hp"] > 0 do
 			end
 		end
 		print("")
+		paces = paces+1
 		if paces > 5 then
 			foundExit = true
 			break
