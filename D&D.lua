@@ -57,12 +57,11 @@ end
 
 function loadPlayer()
 	player = {}
-	local temp = io.open("player.lua","r")
-	if not temp:read("*line") == nil then
-		player = table.load("player.lua")
-	end
+	stats = {}
+	inv = {}
+	player = table.load("player.lua")
+	stats = table.load("playerStats.lua")
 	inv = table.load("inventory.lua")
-	temp:close();
 end
 
 function createPlayer()
@@ -73,6 +72,14 @@ function createPlayer()
 		if player["name"] == nil then
 			print("You have no game to load")
 		end
+		stats = {
+		kills = 0,
+		itemUses = 0,
+		levelsVisted = 0,
+		hpGained = 0,
+		hpLost = 0
+		}
+		
 		player = {
 		hp=15,
 		defs=5,
@@ -148,6 +155,9 @@ function commands(input)
 	if string.lower(input) == "inv" or string.lower(input) == "inventory" then
 		displayInv()
 	end
+	if string.lower(input) =="stats" then
+		displayStats()
+	end
 	if string.lower(input) == "run" then
 		if run() then
 			runWin = true
@@ -222,6 +232,7 @@ function findItem()
 		p2 = item[k][2]
 		p3 = item[k][3]
 	end
+	print("")
 	print("You have found a "..keyItem.."!")
 	if inv[keyItem] == nil then
 		inv[keyItem] = {p1,p2,p3}
@@ -233,6 +244,7 @@ function findItem()
 			print("You now have "..inv[keyItem][3].." "..keyItem.."s!")
 		end
 	end
+	print("")
 end
 
 function displayInv()
@@ -295,8 +307,10 @@ function enemyAttack()
     if dmg > 0 then
       player["hp"] = player["hp"] - dmg
       print(enemy.name .. " did " .. dmg .. " damage to you")
+      stats["hpLost"] = stats["hpLost"] + dmg
     else
       print(enemy.name .. " is too weak and did no damage")
+      stats["hpLost"] = stats["hpLost"] - 1
     end
   end
 	print("you have "..player["hp"].." health left")
@@ -345,12 +359,23 @@ end
 function displayPlayer()
 	print("")
 	print(player["name"])
-	print("Sharp Defense="..player["defs"])
-	print("Blunt Defense="..player["defb"])
-	print("Magic Defense="..player["defm"])
-	print("Dexterity="..player["dex"])
-	print("Intelligence="..player["int"])
-	print("Strength="..player["str"])
+	print("   Sharp Defense="..player["defs"])
+	print("   Blunt Defense="..player["defb"])
+	print("   Magic Defense="..player["defm"])
+	print("   Dexterity="..player["dex"])
+	print("   Intelligence="..player["int"])
+	print("   Strength="..player["str"])
+	print("")
+end
+
+function displayStats()
+	print("")
+	print(player["name"])
+	print("   Item Uses="..stats["itemUses"])
+	print("   Levels Visted="..stats["levelsVisted"])
+	print("   Hp Lost="..stats["hpLost"])
+	print("   Hp Gained="..stats["hpGained"])
+	print("   Kills="..stats["kills"])
 	print("")
 end
 
@@ -367,6 +392,12 @@ function help()
 	print("   run: gives you a chance to escape!")
 	print("   help: display this again")
 	print("")
+end
+
+function save()
+	assert( table.save( player, "player.lua" ) == nil )
+	assert( table.save( inv, "inventory.lua" ) == nil )
+	assert( table.save( stats, "playerStats.lua" ) == nil )
 end
 
 function run()
@@ -408,8 +439,7 @@ function travel()
 	commands(input)
 	if string.lower(input)=="save" then
 		print("Game Saved!")
-		assert( table.save( player, "player.lua" ) == nil )
-		assert( table.save( inv, "inventory.lua" ) == nil )
+		save()
 		goto redoPath
 	end
 	if string.lower(input)=="north" then
@@ -459,7 +489,6 @@ function useItem()
 	has = false
 	local count = 0
 	for k,v in pairs(inv) do
-		
 		if string.lower(k)==string.lower(input) or tonumber(input) == count then
 			has = true
 			if tonumber(input) == count then
@@ -472,9 +501,11 @@ function useItem()
 	if has == false then
 		print("You don't have a "..input)
 	else
+		stats["itemUses"] = stats["itemUses"]+1
 		selItem = string.lower(input)
 		if string.upper(inv[selItem][2])=="H" then
 			tempRand = math.random(1,4)-2
+			stats["hpGained"] = stats["hpGained"]+(inv[selItem][1]+tempRand)
 			player["hp"]=player["hp"]+(inv[selItem][1]+tempRand)
 			if player["hp"]>15 then
 				player["hp"] = 15
@@ -513,6 +544,7 @@ while player["hp"] > 0 do  --ACTUAL CODE LOOP
 			if enemy["hp"] <1 then
 				print("")
 				print("You killed "..enemy["name"])
+				stats["kills"] = stats["kills"]+1
 				randXp = math.random(1,5)*10
 				print("you gain "..randXp.."XP")
 				player["xp"] = player["xp"]+randXp
