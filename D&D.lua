@@ -239,6 +239,7 @@ function attack()
 		end
 	end
 	print(enemy["name"].." has "..enemy["hp"].." health left")
+	
 end
 
 function enemyAttack()
@@ -258,8 +259,16 @@ function enemyAttack()
       print(enemy.name .. " is too weak and did no damage")
     end
   end
-
 	print("you have "..player["hp"].." health left")
+	if runWin then
+		enemyFound = false
+		print("You ran away!")
+		enemy["hp"] = 0 
+	end
+	if runLoss then
+		print("You tried and failed to escape!")
+		runLoss = false
+	end
 end
 
 function levelUp()
@@ -313,8 +322,112 @@ function help()
 	print("   hp: check hp")
 	print("   stats: display stats")
 	print("   save: save your stats (can't be done during a fight)")
+	print("   run: gives you a chance to escape!")
 	print("   help: display this again")
 	print("")
+end
+
+function run()
+	if math.random(1,10) >5 then
+		return true
+	else
+		return false
+	end
+end
+
+function travel()
+	local north = false
+	local south = false
+	local east = false
+	local west = false
+	if math.random(1,2) == 2 then
+		north = true
+		print("there is a path north")
+	end
+	if math.random(1,2) == 2 then
+		south = true
+		print("there is a path south")
+	end
+	if math.random(1,2) == 2 then
+		east = true
+		print("there is a path east")
+	end
+	if math.random(1,2) == 2 then
+		west = true
+		print("there is a path west")
+	end
+	if not north and not east and not south and not west then
+		north = true
+		print("there is a path north")
+	end
+	::redoPath::
+	io.write("\nwhich way shall you travel?\n")
+	input = io.read("*line")
+	if string.lower(input)=="xp" then
+		print("you have "..player["xp"].."XP")
+		goto redoPath
+	end
+	if string.lower(input)=="hp" or string.lower(input)=="health" then
+		print("you have "..player["hp"].."HP")
+		goto redoPath
+	end
+	if string.lower(input) == "inv" or string.lower(input) == "inventory" then
+			displayInv()
+			goto redoPath
+		end
+	if string.lower(input)=="save" then
+		print("Game Saved!")
+		assert( table.save( player, "player.lua" ) == nil )
+		assert( table.save( inv, "inventory.lua" ) == nil )
+		goto redoPath
+	end
+	if string.lower(input)=="help" then
+		help()
+		goto redoPath
+	end
+	if string.lower(input)=="stats" or string.lower(input)=="health" then
+		displayStats()
+		goto redoPath
+	end
+	if string.lower(input)=="north" then
+		if north then
+			print("you head north!")
+		else
+			print("north is blocked")
+			goto redoPath
+		end
+	end
+	if string.lower(input)=="south" then
+		if south then
+			print("you head south!")
+		else
+			print("south is blocked")
+			goto redoPath
+		end
+	end
+	if string.lower(input)=="east" then
+		if east then
+			print("you head east!")
+		else
+			print("east is blocked")
+			goto redoPath
+		end
+	end
+	if string.lower(input)=="west" then
+		if west then
+			print("you head west!")
+		else
+			print("west is blocked")
+			goto redoPath
+		end
+	end
+	print("")
+	paces = paces+1
+	if paces > 5*player["lvl"] and math.random(1,20) == 3  then
+		foundExit = true
+	elseif math.random(1,5) == 3 and not foundExit then
+		enemyFound = true
+	end
 end
 
 function useItem()
@@ -374,6 +487,14 @@ while player["hp"] > 0 do  --ACTUAL CODE LOOP
 			if string.lower(input) == "inv" or string.lower(input) == "inventory" then
 				displayInv()
 			end
+			if string.lower(input) == "run" then
+				if run() then
+					runWin = true
+				else
+					runLoss = true
+				end
+				enemyAttack()
+			end
 			if string.lower(input)=="use" then
 				useItem()
 			end
@@ -393,15 +514,17 @@ while player["hp"] > 0 do  --ACTUAL CODE LOOP
 				findItem()
 			end
 		end
-		if enemy["hp"] <1 then
-			print("")
-			print("You killed "..enemy["name"])
-			randXp = math.random(1,5)*10
-			print("you gain "..randXp.."XP")
-			player["xp"] = player["xp"]+randXp
-			print("")
-			if math.random(1,10) == 5 then
-				findItem()
+		if not runWin then
+			if enemy["hp"] <1 then
+				print("")
+				print("You killed "..enemy["name"])
+				randXp = math.random(1,5)*10
+				print("you gain "..randXp.."XP")
+				player["xp"] = player["xp"]+randXp
+				print("")
+				if math.random(1,10) == 5 then
+					findItem()
+				end
 			end
 		end
 		if player["xp"]>player["lvl"]*100 then
@@ -415,100 +538,7 @@ while player["hp"] > 0 do  --ACTUAL CODE LOOP
 	enemyFound = false
 	local foundExit = false
 	while not enemyFound and not foundExit and player["hp"]>0 do
-		local north = false
-		local south = false
-		local east = false
-		local west = false
-		if math.random(1,2) == 2 then
-			north = true
-			print("there is a path north")
-		end
-		if math.random(1,2) == 2 then
-			south = true
-			print("there is a path south")
-		end
-		if math.random(1,2) == 2 then
-			east = true
-			print("there is a path east")
-		end
-		if math.random(1,2) == 2 then
-			west = true
-			print("there is a path west")
-		end
-		if not north and not east and not south and not west then
-			north = true
-			print("there is a path north")
-		end
-		::redoPath::
-		io.write("\nwhich way shall you travel?\n")
-		input = io.read("*line")
-		if string.lower(input)=="xp" then
-			print("you have "..player["xp"].."XP")
-			goto redoPath
-		end
-		if string.lower(input)=="hp" or string.lower(input)=="health" then
-			print("you have "..player["hp"].."HP")
-			goto redoPath
-		end
-		if string.lower(input) == "inv" or string.lower(input) == "inventory" then
-				displayInv()
-				goto redoPath
-			end
-		if string.lower(input)=="save" then
-			print("Game Saved!")
-			assert( table.save( player, "player.lua" ) == nil )
-			assert( table.save( inv, "inventory.lua" ) == nil )
-			goto redoPath
-		end
-		if string.lower(input)=="help" then
-			help()
-			goto redoPath
-		end
-
-		if string.lower(input)=="stats" or string.lower(input)=="health" then
-			displayStats()
-			goto redoPath
-		end
-		if string.lower(input)=="north" then
-			if north then
-				print("you head north!")
-			else
-				print("north is blocked")
-				goto redoPath
-			end
-		end
-		if string.lower(input)=="south" then
-			if south then
-				print("you head south!")
-			else
-				print("south is blocked")
-				goto redoPath
-			end
-		end
-		if string.lower(input)=="east" then
-			if east then
-				print("you head east!")
-			else
-				print("east is blocked")
-				goto redoPath
-			end
-		end
-		if string.lower(input)=="west" then
-			if west then
-				print("you head west!")
-			else
-				print("west is blocked")
-				goto redoPath
-			end
-		end
-		print("")
-		paces = paces+1
-		if paces > 5*player["lvl"] and math.random(1,20) == 3  then
-			foundExit = true
-			break
-		elseif math.random(1,5) == 3 and not foundExit then
-			enemyFound = true
-		end
+		travel()
 	end
 	if foundExit then
 		nextLevel()
