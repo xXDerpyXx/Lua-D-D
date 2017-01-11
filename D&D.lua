@@ -333,7 +333,7 @@ end
 function levelUp()
 	print("\nYou have leveled up!!!\n")
 	print("Increase what stat?")
-	displayStats()
+	displayPlayer()
 	local tempRand = math.random(1,5)
 	::retryLvl::
 	io.write("increase:")
@@ -554,7 +554,7 @@ while player["hp"] > 0 do  --ACTUAL CODE LOOP
 				print("you gain "..randXp.."XP")
 				player["xp"] = player["xp"]+randXp
 				print("")
-				if math.random(1,10) == 5 then
+				if math.random(1,3) == 2 then
 					findItem()
 				end
 			end
