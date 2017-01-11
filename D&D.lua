@@ -328,7 +328,7 @@ function help()
 end
 
 function run()
-	if math.random(1,10) >5 then
+	if math.random(1,10) >7 then
 		return true
 	else
 		return false
