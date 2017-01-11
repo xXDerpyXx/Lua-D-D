@@ -413,12 +413,12 @@ while player["hp"] > 0 do  --ACTUAL CODE LOOP
 	enemy = nil
 	enemyExists = false
 	enemyFound = false
+	local foundExit = false
 	while not enemyFound and not foundExit and player["hp"]>0 do
 		local north = false
 		local south = false
 		local east = false
 		local west = false
-		local foundExit = false
 		if math.random(1,2) == 2 then
 			north = true
 			print("there is a path north")
@@ -503,7 +503,7 @@ while player["hp"] > 0 do  --ACTUAL CODE LOOP
 		end
 		print("")
 		paces = paces+1
-		if paces > 5 then
+		if paces > 5*player["lvl"] and math.random(1,20) == 3  then
 			foundExit = true
 			break
 		elseif math.random(1,5) == 3 and not foundExit then
