@@ -42,17 +42,27 @@ function main()
   end
 
   -- Print out what we loaded
-  for _,level in ipairs(levels) do
-    print(level..":")
-    for _,enemy in ipairs(levelEnemies[level]) do
-      print("  " .. enemy)
-    end
-  end
+	for _,level in ipairs(levels) do
+		print(level..":")
+		print("   Enemies:")
+		for _,enemy in ipairs(levelEnemies[level]) do
+			print("     " .. enemy)
+		end
+		print("   Items:")
+		for _,item in ipairs(levelItems[level]) do
+			print("     " .. item)
+		end
+	end
 end
 
 function loadPlayer()
-	player = table.load("player.lua")
+	player = {}
+	local temp = io.open("player.lua","r")
+	if not temp:read("*line") == nil then
+		player = table.load("player.lua")
+	end
 	inv = table.load("inventory.lua")
+	temp:close();
 end
 
 function createPlayer()
