@@ -302,8 +302,9 @@ function levelUp()
 	end
 end
 
-function displayStats()
+function displayPlayer()
 	print("")
+	print(player["name"])
 	print("Sharp Defense="..player["defs"])
 	print("Blunt Defense="..player["defb"])
 	print("Magic Defense="..player["defm"])
@@ -321,6 +322,7 @@ function help()
 	print("   xp: check xp")
 	print("   hp: check hp")
 	print("   stats: display stats")
+	print("   player: display skills and player bits and bobs")
 	print("   save: save your stats (can't be done during a fight)")
 	print("   run: gives you a chance to escape!")
 	print("   help: display this again")
@@ -385,8 +387,8 @@ function travel()
 		help()
 		goto redoPath
 	end
-	if string.lower(input)=="stats" or string.lower(input)=="health" then
-		displayStats()
+	if string.lower(input)=="player" then
+		displayPlayer()
 		goto redoPath
 	end
 	if string.lower(input)=="north" then
@@ -504,8 +506,8 @@ while player["hp"] > 0 do  --ACTUAL CODE LOOP
 			if string.lower(input)=="hp" or string.lower(input)=="health" then
 				print("you have "..player["hp"].."HP")
 			end
-			if string.lower(input)=="stats" or string.lower(input)=="health" then
-				displayStats()
+			if string.lower(input)=="player" then
+				displayPlayer()
 			end
 			if string.lower(input)=="help" then
 				help()
