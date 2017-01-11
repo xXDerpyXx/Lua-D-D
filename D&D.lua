@@ -59,7 +59,7 @@ function createPlayer()
 	loadPlayer()
 	io.write("\ncreate a new character?\n")
 	input = io.read("*line")
-	if input =="y" or input == "yes" or player["name"]==nil then
+	if input =="y" or input == "yes" or player["name"]==nil or player["hp"] == 0 then
 		if player["name"] == nil then
 			print("You have no game to load")
 		end
@@ -532,11 +532,9 @@ end
 print("you died!")
 io.write("\nretry?\n")
 input = io.read("*line")
-if input == "y" or "yes" then
+if input == "y" or input == "yes" then
 	goto restart
 else
-	player = nil
-	inv = nil
+	player["hp"] = 0
 	assert( table.save( player, "player.lua" ) == nil )
-	assert( table.save( inv, "inventory.lua" ) == nil )
 end
