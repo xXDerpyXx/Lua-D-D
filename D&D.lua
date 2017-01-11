@@ -540,7 +540,7 @@ while player["hp"] > 0 do  --ACTUAL CODE LOOP
 		encounter()
 	end
 	if enemyFound and not foundExit then
-		while enemy["hp"]>0 and player["hp"]>0 do
+		while enemy["hp"]>0 and player["hp"]>0 and enemyFound do
 			io.write("\nwhat will you do!\n")
 			local input = io.read("*line")
 			commands(input)
