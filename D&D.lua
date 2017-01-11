@@ -70,7 +70,7 @@ end
 
 function createPlayer()
 	loadPlayer()
-	io.write("\ncreate a new character?\n")
+	io.write("\ncreate a new character? (leave blank to load last character)\n")
 	input = io.read("*line")
 	if input =="y" or input == "yes" or player["name"]==nil or player["hp"] == 0 then
 		if player["name"] == nil then
@@ -322,7 +322,7 @@ function enemyAttack()
 	if runWin then
 		enemyFound = false
 		print("You ran away!")
-		enemy["hp"] = 0 
+		runWin = false
 	end
 	if runLoss then
 		print("You tried and failed to escape!")
