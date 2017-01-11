@@ -134,7 +134,37 @@ playerSTR
 playerINT
 ]]--
 
-
+function commands(input)
+	if string.lower(input) == "inv" or string.lower(input) == "inventory" then
+		displayInv()
+	end
+	if string.lower(input) == "run" then
+		if run() then
+			runWin = true
+		else
+			runLoss = true
+		end
+		enemyAttack()
+	end
+	if string.lower(input)=="use" then
+		useItem()
+	end
+	if string.lower(input)=="xp" then
+		print("you have "..player["xp"].."XP")
+	end
+	if string.lower(input)=="hp" or string.lower(input)=="health" then
+		print("you have "..player["hp"].."HP")
+	end
+	if string.lower(input)=="player" then
+		displayPlayer()
+	end
+	if string.lower(input)=="help" then
+		help()
+	end
+	if string.lower(input)=="give" then
+		findItem()
+	end
+end
 
 function nextLevel()
 	paces = 0
@@ -365,30 +395,11 @@ function travel()
 	::redoPath::
 	io.write("\nwhich way shall you travel?\n")
 	input = io.read("*line")
-	if string.lower(input)=="xp" then
-		print("you have "..player["xp"].."XP")
-		goto redoPath
-	end
-	if string.lower(input)=="hp" or string.lower(input)=="health" then
-		print("you have "..player["hp"].."HP")
-		goto redoPath
-	end
-	if string.lower(input) == "inv" or string.lower(input) == "inventory" then
-			displayInv()
-			goto redoPath
-		end
+	commands(input)
 	if string.lower(input)=="save" then
 		print("Game Saved!")
 		assert( table.save( player, "player.lua" ) == nil )
 		assert( table.save( inv, "inventory.lua" ) == nil )
-		goto redoPath
-	end
-	if string.lower(input)=="help" then
-		help()
-		goto redoPath
-	end
-	if string.lower(input)=="player" then
-		displayPlayer()
 		goto redoPath
 	end
 	if string.lower(input)=="north" then
@@ -485,36 +496,8 @@ while player["hp"] > 0 do  --ACTUAL CODE LOOP
 	if enemyFound and not foundExit then
 		while enemy["hp"]>0 and player["hp"]>0 do
 			io.write("\nwhat will you do!\n")
-			input = io.read("*line")
-			if string.lower(input) == "inv" or string.lower(input) == "inventory" then
-				displayInv()
-			end
-			if string.lower(input) == "run" then
-				if run() then
-					runWin = true
-				else
-					runLoss = true
-				end
-				enemyAttack()
-			end
-			if string.lower(input)=="use" then
-				useItem()
-			end
-			if string.lower(input)=="xp" then
-				print("you have "..player["xp"].."XP")
-			end
-			if string.lower(input)=="hp" or string.lower(input)=="health" then
-				print("you have "..player["hp"].."HP")
-			end
-			if string.lower(input)=="player" then
-				displayPlayer()
-			end
-			if string.lower(input)=="help" then
-				help()
-			end
-			if string.lower(input)=="give" then
-				findItem()
-			end
+			local input = io.read("*line")
+			commands(input)
 		end
 		if not runWin then
 			if enemy["hp"] <1 then
