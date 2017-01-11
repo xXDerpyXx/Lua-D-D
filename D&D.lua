@@ -250,7 +250,7 @@ function enemyAttack()
     local dmg = enemy["atk"] + tempRand - def
     if dmg > 0 then
       player["hp"] = player["hp"] - dmg
-      print(enemy.name .. " did " .. dmg .. "damage to you")
+      print(enemy.name .. " did " .. dmg .. " damage to you")
     else
       print(enemy.name .. " is too weak and did no damage")
     end
