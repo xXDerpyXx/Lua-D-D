@@ -108,11 +108,11 @@ function createPlayer()
 		else
 			goto redoClass
 		end
-		
+
 		--[[dex=5,
 		str=5,
 		int=5,]]--
-		
+
 		assert( table.save( player, "player.lua" ) == nil )
 		assert( table.save( inv, "inventory.lua" ) == nil )
 	else
@@ -192,7 +192,7 @@ function findItem()
 			inv[keyItem][3] = inv[keyItem][3]+1
 			print("You now have "..inv[keyItem][3].." "..keyItem.."s!")
 		end
-	end	
+	end
 end
 
 function displayInv()
@@ -240,28 +240,22 @@ end
 
 function enemyAttack()
 	tempRand = math.random(1,4)-2
-	if string.upper(enemy["atkType"]) == "S" then
-		if (enemy["atk"]+tempRand-player["defs"])>0 then
-			player["hp"] = player["hp"]-(enemy["atk"]+tempRand-player["defs"])
-			print(enemy["name"].." did "..(enemy["atk"]+tempRand-player["defs"]).." damage to you")
-		else
-			print(enemy["name"].." is too weak and did no damage")
-		end
-	elseif string.upper(enemy["atkType"]) == "B" then
-		if (enemy["atk"]+tempRand-player["defb"])>0 then
-			player["hp"] = player["hp"]-(enemy["atk"]+tempRand-player["defb"])
-			print(enemy["name"].." did "..(enemy["atk"]+tempRand-player["defb"]).." damage to you")
-		else
-			print(enemy["name"].." is too weak and did no damage")
-		end
-	elseif string.upper(enemy["atkType"]) == "M" then
-		if (enemy["atk"]+tempRand-player["defm"])>0 then
-			player["hp"] = player["hp"]-(enemy["atk"]+tempRand-player["defm"])
-			print(enemy["name"].." did "..(enemy["atk"]+tempRand-player["defm"]).." damage to you")
-		else
-			print(enemy["name"].." is too weak and did no damage")
-		end
-	end
+  def = ({
+    S = player["defs"],
+    B = player["defb"],
+    M = player["defm"]
+  })[enemy["atkType"]:upper()]
+
+  if def ~= nil then
+    local dmg = enemy["atk"] + tempRand - def
+    if dmg > 0 then
+      player["hp"] = player["hp"] - dmg
+      print(enemy.name .. " did " .. dmg .. "damage to you")
+    else
+      print(enemy.name .. " is too weak and did no damage")
+    end
+  end
+
 	print("you have "..player["hp"].." health left")
 end
 
@@ -456,7 +450,7 @@ while player["hp"] > 0 do  --ACTUAL CODE LOOP
 			help()
 			goto redoPath
 		end
-		
+
 		if string.lower(input)=="stats" or string.lower(input)=="health" then
 			displayStats()
 			goto redoPath
