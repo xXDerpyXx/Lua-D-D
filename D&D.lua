@@ -196,6 +196,7 @@ function nextLevel()
 		level = currentLevel
 	end
 	foundExit = false
+	stats["levelsVisted"] = stats["levelsVisted"]+1
 end
 
 function encounter()
