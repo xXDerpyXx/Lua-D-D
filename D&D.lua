@@ -66,9 +66,6 @@ end
 loadPlayer()
 io.write("\ncreate a new character?\n")
 input = io.read("*line")
-if input == "" or input == " " then
-	goto restart
-end
 if input =="y" or input == "yes" or player["name"]==nil then
 	if player["name"] == nil then
 		print("You have no game to load")
@@ -460,6 +457,10 @@ while player["hp"] > 0 do
 			print("Game Saved!")
 			assert( table.save( player, "player.lua" ) == nil )
 			assert( table.save( inv, "inventory.lua" ) == nil )
+			goto redoPath
+		end
+		if string.lower(input)=="help" then
+			help()
 			goto redoPath
 		end
 		
