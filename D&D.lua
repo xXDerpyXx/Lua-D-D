@@ -60,7 +60,7 @@ function loadPlayer()
 	stats = {}
 	inv = {}
 	temp = io.open("player.lua","r")
-	if temp:read("*all") == nil then
+	if temp:read("*all") ~= nil then
 		player = table.load("player.lua")
 		stats = table.load("playerStats.lua")
 		inv = table.load("inventory.lua")
