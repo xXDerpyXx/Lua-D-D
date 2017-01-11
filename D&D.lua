@@ -181,7 +181,7 @@ function findItem()
 	if inv[keyItem] == nil then
 		inv[keyItem] = {p1,p2,p3}
 	else
-		if p3 ~= nil then
+		if p3 == nil then
 			inv[keyItem][3] = 1
 		else
 			inv[keyItem][3] = inv[keyItem][3]+1
