@@ -197,7 +197,10 @@ end
 
 function displayInv()
 	print("inventory")
+	local count = 0
 	for k,v in pairs(inv) do
+	count = count+1
+	io.write(count)
 		if v[3] ~= nil then
 			io.write("   "..tostring(k))
 			io.write(" x "..tostring(v[3]).."\n")
@@ -318,10 +321,17 @@ function useItem()
 	io.write("use: ")
 	input=io.read("*line")
 	has = false
+	local count = 0
 	for k,v in pairs(inv) do
-		if string.lower(k)==string.lower(input) then
-		has = true
+		
+		if string.lower(k)==string.lower(input) or tonumber(input) == count then
+			has = true
+			if tonumber(input) == count then
+				input = k
+				print("you used your "..input)
+			end
 		end
+		count = count+1
 	end
 	if has == false then
 		print("You don't have a "..input)
@@ -334,6 +344,9 @@ function useItem()
 				player["hp"] = 15
 			end
 			print("you have gained "..(inv[selItem][1]+tempRand).."HP, you now have "..player["hp"].."HP")
+			if inv[selItem][3] == nil then
+				inv[selItem][3] = 1
+			end
 			inv[selItem][3] = inv[selItem][3]-1
 			if inv[selItem][3] < 1 then
 				inv[selItem] = nil
