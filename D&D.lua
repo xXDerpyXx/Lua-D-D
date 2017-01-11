@@ -142,7 +142,7 @@ function nextLevel()
 		print("ERR: 0 levels found")
 	else
 		currentLevel = levels[math.random(1,levelCount)]
-		print("You have fallen and ended up in the "..currentLevel.."...")
+		print("You have fallen and ended up in the "..currentLevel.."...\n")
 		level = currentLevel
 	end
 	foundExit = false
@@ -432,7 +432,7 @@ while player["hp"] > 0 do  --ACTUAL CODE LOOP
 			print("there is a path north")
 		end
 		::redoPath::
-		io.write("\nwhich way shall you travel? Current Paces:"..paces.." "..tostring(foundExit).."\n")
+		io.write("\nwhich way shall you travel?\n")
 		input = io.read("*line")
 		if string.lower(input)=="xp" then
 			print("you have "..player["xp"].."XP")
