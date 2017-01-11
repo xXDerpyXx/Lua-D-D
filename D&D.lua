@@ -289,6 +289,7 @@ function levelUp()
 		goto retryLvl
 	end
 end
+
 function displayStats()
 	print("")
 	print("Sharp Defense="..player["defs"])
