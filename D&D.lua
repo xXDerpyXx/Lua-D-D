@@ -29,6 +29,7 @@ local enemyNums = {}
 
 function main()
   -- read all the levels
+  print("LOADING CONTENT")
   levels = ls("levels")
   levelEnemies = {}
   enemyNums = {}
@@ -62,70 +63,75 @@ function loadPlayer()
 	inv = table.load("inventory.lua")
 end
 
-::restart::
-loadPlayer()
-io.write("\ncreate a new character?\n")
-input = io.read("*line")
-if input =="y" or input == "yes" or player["name"]==nil then
-	if player["name"] == nil then
-		print("You have no game to load")
-	end
-	player = {
-	hp=15,
-	defs=5,
-	defb=5,
-	defm=5,
-	xp=0,
-	lvl=1
-	}
-	::redoName::
-	io.write("\nWhat is your name?\n")
+function createPlayer()
+	loadPlayer()
+	io.write("\ncreate a new character?\n")
 	input = io.read("*line")
-	if input == "" or input == " " then
-		goto redoName
-	end
-	player["name"] = input
-	::redoClass::
-	io.write("\nClass? Brute, Mage, or Knight\n")
-	input = io.read("*line")
-	if string.lower(input) == "brute" then
-		player["dex"] = 3
-		player["str"] = 7
-		player["int"] = 3
-		inv = {
-			potion={5,"H",3},
-			mace={5,"B"}
+	if input =="y" or input == "yes" or player["name"]==nil then
+		if player["name"] == nil then
+			print("You have no game to load")
+		end
+		player = {
+		hp=15,
+		defs=5,
+		defb=5,
+		defm=5,
+		xp=0,
+		lvl=1
 		}
-	elseif string.lower(input) == "mage" then
-		player["dex"] = 3
-		player["str"] = 3
-		player["int"] = 7
-		inv = {
-			potion={5,"H",3},
-			zap={5,"M"}
-		}
-	elseif string.lower(input) == "knight" then
-		player["dex"] = 7
-		player["str"] = 3
-		player["int"] = 3
-		inv = {
-			potion={5,"H",3},
-			sword={5,"S"}
-		}
+		::redoName::
+		io.write("\nWhat is your name?\n")
+		input = io.read("*line")
+		if input == "" or input == " " then
+			goto redoName
+		end
+		player["name"] = input
+		::redoClass::
+		io.write("\nClass? Brute, Mage, or Knight\n")
+		input = io.read("*line")
+		if string.lower(input) == "brute" then
+			player["dex"] = 3
+			player["str"] = 7
+			player["int"] = 3
+			inv = {
+				potion={5,"H",3},
+				mace={5,"B"}
+			}
+		elseif string.lower(input) == "mage" then
+			player["dex"] = 3
+			player["str"] = 3
+			player["int"] = 7
+			inv = {
+				potion={5,"H",3},
+				zap={5,"M"}
+			}
+		elseif string.lower(input) == "knight" then
+			player["dex"] = 7
+			player["str"] = 3
+			player["int"] = 3
+			inv = {
+				potion={5,"H",3},
+				sword={5,"S"}
+			}
+		else
+			goto redoClass
+		end
+		
+		--[[dex=5,
+		str=5,
+		int=5,]]--
+		
+		assert( table.save( player, "player.lua" ) == nil )
+		assert( table.save( inv, "inventory.lua" ) == nil )
 	else
-		goto redoClass
+		player=table.load("player.lua")
+		print("player loaded, "..player["name"])
 	end
-	
-	--[[dex=5,
-	str=5,
-	int=5,]]--
-	
-	assert( table.save( player, "player.lua" ) == nil )
-	assert( table.save( inv, "inventory.lua" ) == nil )
-else
-	player=table.load("player.lua")
-	print("player loaded, "..player["name"])
 end
+
+main()
+::restart::
+createPlayer()
 --[[
 playerHP = 15
 playerDEFS --sharp
@@ -136,7 +142,7 @@ playerSTR
 playerINT
 ]]--
 
-main()
+
 
 function nextLevel()
 	paces = 0
@@ -194,9 +200,19 @@ function findItem()
 			inv[keyItem][3] = inv[keyItem][3]+1
 			print("You now have "..inv[keyItem][3].." "..keyItem.."s!")
 		end
+	end	
+end
+
+function displayInv()
+	print("inventory")
+	for k,v in pairs(inv) do
+		if v[3] ~= nil then
+			io.write("   "..tostring(k))
+			io.write(" x "..tostring(v[3]).."\n")
+		else
+			print("   "..tostring(k))
+		end
 	end
-	
-	
 end
 
 
@@ -261,10 +277,10 @@ function levelUp()
 	print("\nYou have leveled up!!!\n")
 	print("Increase what stat?")
 	displayStats()
-	tempRand = math.random(1,5)
+	local tempRand = math.random(1,5)
 	::retryLvl::
 	io.write("increase:")
-	input = io.read("*line")
+	local input = io.read("*line")
 	if string.lower(input) == "sharp" or string.lower(input) == "sharp defense" then
 		print("Sharp Defense increased by "..tempRand)
 		player["defs"] = player["defs"]+tempRand
@@ -311,8 +327,38 @@ function help()
 	print("")
 end
 
-help()
+function useItem()
+	io.write("use: ")
+	input=io.read("*line")
+	has = false
+	for k,v in pairs(inv) do
+		if string.lower(k)==string.lower(input) then
+		has = true
+		end
+	end
+	if has == false then
+		print("You don't have a "..input)
+	else
+		selItem = string.lower(input)
+		if string.upper(inv[selItem][2])=="H" then
+			tempRand = math.random(1,4)-2
+			player["hp"]=player["hp"]+(inv[selItem][1]+tempRand)
+			if player["hp"]>15 then
+				player["hp"] = 15
+			end
+			print("you have gained "..(inv[selItem][1]+tempRand).."HP, you now have "..player["hp"].."HP")
+			inv[selItem][3] = inv[selItem][3]-1
+			if inv[selItem][3] < 1 then
+				inv[selItem] = nil
+			end
+		else
+			attack()
+			enemyAttack()
+		end
+	end
+end
 
+help()
 nextLevel()
 enemyFount = false
 
@@ -326,46 +372,10 @@ while player["hp"] > 0 do
 			io.write("\nwhat will you do!\n")
 			input = io.read("*line")
 			if string.lower(input) == "inv" or string.lower(input) == "inventory" then
-				print("inventory")
-				for k,v in pairs(inv) do
-					if v[3] ~= nil then
-						io.write("   "..tostring(k))
-						io.write(" x "..tostring(v[3]).."\n")
-						
-					else
-						print("   "..tostring(k))
-					end
-				end
+				displayInv()
 			end
 			if string.lower(input)=="use" then
-				io.write("use: ")
-				input=io.read("*line")
-				has = false
-				for k,v in pairs(inv) do
-					if string.lower(k)==string.lower(input) then
-					has = true
-					end
-				end
-				if has == false then
-					print("You don't have a "..input)
-				else
-					selItem = string.lower(input)
-					if string.upper(inv[selItem][2])=="H" then
-						tempRand = math.random(1,4)-2
-						player["hp"]=player["hp"]+(inv[selItem][1]+tempRand)
-						if player["hp"]>15 then
-							player["hp"] = 15
-						end
-						print("you have gained "..(inv[selItem][1]+tempRand).."HP, you now have "..player["hp"].."HP")
-						inv[selItem][3] = inv[selItem][3]-1
-						if inv[selItem][3] < 1 then
-							inv[selItem] = nil
-						end
-					else
-						attack()
-						enemyAttack()
-					end
-				end
+				useItem()
 			end
 			if string.lower(input)=="xp" then
 				print("you have "..player["xp"].."XP")
@@ -441,16 +451,7 @@ while player["hp"] > 0 do
 			goto redoPath
 		end
 		if string.lower(input) == "inv" or string.lower(input) == "inventory" then
-				print("inventory")
-				for k,v in pairs(inv) do
-					if v[3] ~= nil then
-						io.write("   "..tostring(k))
-						io.write(" x "..tostring(v[3]).."\n")
-						
-					else
-						print("   "..tostring(k))
-					end
-				end
+				displayInv()
 				goto redoPath
 			end
 		if string.lower(input)=="save" then
