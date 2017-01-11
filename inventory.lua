@@ -1,13 +1,13 @@
 return {
 -- Table: {1}
 {
-   ["sword"]={2},
+   ["zap"]={2},
    ["potion"]={3},
 },
 -- Table: {2}
 {
    5,
-   "S",
+   "M",
 },
 -- Table: {3}
 {

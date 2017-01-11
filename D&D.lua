@@ -59,9 +59,13 @@ function loadPlayer()
 	player = {}
 	stats = {}
 	inv = {}
-	player = table.load("player.lua")
-	stats = table.load("playerStats.lua")
-	inv = table.load("inventory.lua")
+	temp = io.open("player.lua","r")
+	if temp:read("*all") == nil then
+		player = table.load("player.lua")
+		stats = table.load("playerStats.lua")
+		inv = table.load("inventory.lua")
+	end
+	temp:close()
 end
 
 function createPlayer()
@@ -488,7 +492,7 @@ function useItem()
 	io.write("use: ")
 	input=io.read("*line")
 	has = false
-	local count = 0
+	local count = -1
 	for k,v in pairs(inv) do
 		if string.lower(k)==string.lower(input) or tonumber(input) == count then
 			has = true
