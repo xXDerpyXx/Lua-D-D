@@ -338,7 +338,7 @@ function levelUp()
 	print("\nYou have leveled up!!!\n")
 	print("Increase what stat?")
 	displayPlayer()
-	local tempRand = math.random(1,5)
+	local tempRand = math.random(3,5)
 	::retryLvl::
 	io.write("increase:")
 	local input = io.read("*line")
@@ -363,6 +363,7 @@ function levelUp()
 	else
 		goto retryLvl
 	end
+	save()
 end
 
 function displayPlayer()
@@ -489,7 +490,8 @@ function travel()
 	paces = paces+1
 	if paces > 5*player["lvl"] and math.random(1,20) == 3  then
 		foundExit = true
-	elseif math.random(1,5) == 3 and not foundExit then
+	end
+	if math.random(1,5) == 3 and not foundExit then
 		enemyFound = true
 	end
 end
@@ -585,12 +587,14 @@ while player["hp"] > 0 do  --ACTUAL CODE LOOP
 	enemy = nil
 	enemyExists = false
 	enemyFound = false
-	local foundExit = false
 	while not enemyFound and not foundExit and player["hp"]>0 do
 		travel()
 		if foundExit then
 			nextLevel()
 		end
+	end
+	if foundExit then
+		nextLevel()
 	end
 end
 print("you died!")
