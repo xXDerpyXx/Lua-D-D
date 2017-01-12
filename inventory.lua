@@ -1,18 +1,23 @@
 return {
 -- Table: {1}
 {
-   ["zap"]={2},
-   ["potion"]={3},
+   ["potion"]={2},
+   ["woodensword"]={3},
+   ["zap"]={4},
 },
 -- Table: {2}
 {
    5,
-   "M",
+   "H",
 },
 -- Table: {3}
 {
+   7,
+   "S",
+},
+-- Table: {4}
+{
    5,
-   "H",
-   3,
+   "M",
 },
 }

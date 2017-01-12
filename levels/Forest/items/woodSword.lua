@@ -1,3 +1,3 @@
 return{
-Wooden_Sword={7,"S"}
+woodensword={7,"S"}
 }
