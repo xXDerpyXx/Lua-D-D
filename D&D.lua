@@ -267,7 +267,7 @@ function findItem()
 		inv[keyItem][3] = inv[keyItem][3]+1
 		if inv[keyItem][3]>1 then
 			if inv[keyItem][4] == nil then
-				item[keyItem][4] = keyItem
+				inv[keyItem][4] = keyItem
 			end
 			print("You now have "..tostring(inv[keyItem][3]).." "..tostring(inv[keyItem][4]).."s!")
 		end
