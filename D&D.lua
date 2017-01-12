@@ -112,7 +112,7 @@ function createPlayer()
 			player["int"] = 3
 			inv = {
 				potion={5,"H",3},
-				mace={5,"B"}
+				mace={5,"B",1,"mace"}
 			}
 		elseif string.lower(input) == "mage" then
 			player["dex"] = 3
@@ -120,7 +120,7 @@ function createPlayer()
 			player["int"] = 7
 			inv = {
 				potion={5,"H",3},
-				zap={5,"M"}
+				zap={5,"M",1,"zap"}
 			}
 		elseif string.lower(input) == "knight" then
 			player["dex"] = 7
@@ -128,7 +128,7 @@ function createPlayer()
 			player["int"] = 3
 			inv = {
 				potion={5,"H",3},
-				sword={5,"S"}
+				sword={5,"S",1,"sword"}
 			}
 		else
 			goto redoClass
@@ -247,21 +247,31 @@ function findItem()
 		p1 = item[k][1]
 		p2 = item[k][2]
 		p3 = item[k][3]
+		p4 = item[k][4]
+	end
+	if p4 == nil then
+		p4 = tostring(keyItem)
 	end
 	print("")
-	print("You have found a "..keyItem.."!")
+	print("You have found a "..p4.."!")
 	if inv[keyItem] == nil then
-		inv[keyItem] = {p1,p2,p3}
+		inv[keyItem] = {p1,p2,p3,p4}
+		if inv[keyItem][4] == nil then
+			inv[keyItem][4] ="test"
+		end
 	else
 		if inv[keyItem][3] == nil then
 			inv[keyItem][3] = 0
 		end
 		inv[keyItem][3] = inv[keyItem][3]+1
-		if inv[keyItem[3]>1 then
-			print("You now have "..inv[keyItem][3].." "..keyItem.."s!")
+		if inv[keyItem][3]>1 then
+			print("You now have "..inv[keyItem][3].." "..inv[keyItem][4].."s!")
 		end
 	end
 	print("")
+	if inv[keyItem][4] == nil then
+		inv[keyItem][4] = tostring(keyItem)
+	end
 end
 
 function displayInv()
@@ -277,7 +287,7 @@ function displayInv()
 			io.write("     "..tostring(k))
 			io.write(" x "..tostring(v[3]).."\n")
 		else
-			print("     "..tostring(k))
+			print("     "..tostring(v[4]))
 		end
 	end
 end
@@ -517,7 +527,7 @@ function useItem()
 			if string.lower(k)==string.lower(input) or tonumber(input) == count then
 				has = true
 				if tonumber(input) == count then
-					input = k
+					input = inv[k][4]
 					print("you used your "..input)
 				end
 			end
