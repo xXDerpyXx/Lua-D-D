@@ -1,10 +1,10 @@
 return {
 -- Table: {1}
 {
-   ["hpLost"]=20,
-   ["kills"]=5,
-   ["hpGained"]=15,
-   ["levelsVisted"]=3,
-   ["itemUses"]=15,
+   ["hpGained"]=61,
+   ["levelsVisted"]=9,
+   ["kills"]=43,
+   ["hpLost"]=9,
+   ["itemUses"]=112,
 },
 }

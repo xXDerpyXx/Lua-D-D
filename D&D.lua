@@ -200,7 +200,9 @@ function nextLevel()
 	if levelCount == nil or levelCount == 0 then
 		print("ERR: 0 levels found")
 	else
-		currentLevel = levels[math.random(1,levelCount)]
+		repeat 
+			currentLevel = levels[math.random(1,levelCount)]
+		until currentLevel ~= level
 		print("You have fallen and ended up in the "..currentLevel.."...\n")
 		level = currentLevel
 	end
