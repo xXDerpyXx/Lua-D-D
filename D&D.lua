@@ -524,7 +524,7 @@ function useItem()
 	local count = -1
 	if enemy ~= nil then
 		for k,v in pairs(inv) do
-			if string.lower(k)==string.lower(input) or tonumber(input) == count then
+			if string.lower(inv[k][4]) == string.lower(input) or tonumber(input) == count then
 				has = true
 				if tonumber(input) == count then
 					input = inv[k][4]
