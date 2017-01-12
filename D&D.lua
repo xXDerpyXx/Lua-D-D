@@ -259,16 +259,19 @@ function findItem()
 end
 
 function displayInv()
-	print("inventory")
+	print("Inventory:")
+	print("Num:  Type: Name:")
 	local count = 0
 	for k,v in pairs(inv) do
 	count = count+1
 	io.write(count)
+	io.write("     ")
+	io.write(tostring(inv[k][2]))
 		if v[3] ~= nil then
-			io.write("   "..tostring(k))
+			io.write("     "..tostring(k))
 			io.write(" x "..tostring(v[3]).."\n")
 		else
-			print("   "..tostring(k))
+			print("     "..tostring(k))
 		end
 	end
 end
@@ -320,7 +323,6 @@ function enemyAttack()
       stats["hpLost"] = stats["hpLost"] + dmg
     else
       print(enemy.name .. " is too weak and did no damage")
-      stats["hpLost"] = stats["hpLost"] - 1
     end
   end
 	print("you have "..player["hp"].." health left")
@@ -607,6 +609,13 @@ while player["hp"] > 0 do  --ACTUAL CODE LOOP
 		nextLevel()
 	end
 end
+print("")
+displayStats()
+print("")
+displayPlayer()
+print("")
+displayInv()
+print("")
 print("you died!")
 io.write("\nretry?\n")
 input = io.read("*line")
