@@ -581,9 +581,9 @@ while player["hp"] > 0 do  --ACTUAL CODE LOOP
 				player["xp"] = player["xp"]+randXp
 				print("")
 				if enemy["dropChance"] == nil then
-					enemy["dropChance"] = 3
+					enemy["dropChance"] = 33
 				end
-				if math.random(1,enemy["dropChance"]) == 1 then
+				if math.random(1,100) >= enemy["dropChance"] then
 					findItem()
 				end
 			end
