@@ -242,7 +242,7 @@ function findItem()
 	if inv[keyItem] == nil then
 		inv[keyItem] = {p1,p2,p3}
 	else
-		if p3 == nil then
+		if inv[keyItem][3] == nil then
 			inv[keyItem][3] = 1
 		else
 			inv[keyItem][3] = inv[keyItem][3]+1
@@ -296,7 +296,6 @@ function attack()
 		end
 	end
 	print(enemy["name"].." has "..enemy["hp"].." health left")
-	
 end
 
 function enemyAttack()
@@ -400,6 +399,8 @@ function help()
 end
 
 function save()
+	player["level"] = level
+	player["paces"] = paces
 	assert( table.save( player, "player.lua" ) == nil )
 	assert( table.save( inv, "inventory.lua" ) == nil )
 	assert( table.save( stats, "playerStats.lua" ) == nil )
@@ -531,9 +532,14 @@ function useItem()
 end
 
 help()
-nextLevel()
+if player["level"] == nil then
+	nextLevel()
+end
+if player["paces"] == nil then
+	paces = 0
+end
 enemyFound = false
-
+foundExit = false
 
 while player["hp"] > 0 do  --ACTUAL CODE LOOP
 	if enemyFound and not foundExit then
