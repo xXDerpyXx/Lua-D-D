@@ -248,6 +248,9 @@ function findItem()
 		p2 = item[k][2]
 		p3 = item[k][3]
 		p4 = item[k][4]
+		if inv[k][4] == nil then
+			inv[k][4] = k
+		end
 	end
 	if p4 == nil then
 		p4 = tostring(keyItem)
@@ -256,16 +259,16 @@ function findItem()
 	print("You have found a "..p4.."!")
 	if inv[keyItem] == nil then
 		inv[keyItem] = {p1,p2,p3,p4}
-		if inv[keyItem][4] == nil then
-			inv[keyItem][4] ="test"
-		end
 	else
 		if inv[keyItem][3] == nil then
 			inv[keyItem][3] = 0
 		end
 		inv[keyItem][3] = inv[keyItem][3]+1
 		if inv[keyItem][3]>1 then
-			print("You now have "..inv[keyItem][3].." "..inv[keyItem][4].."s!")
+			if inv[keyItem][4] == nil then
+				item[keyItem][4] = keyItem
+			end
+			print("You now have "..tostring(inv[keyItem][3]).." "..tostring(inv[keyItem][4]).."s!")
 		end
 	end
 	print("")
@@ -279,15 +282,18 @@ function displayInv()
 	print("Num:  Type: Name:")
 	local count = 0
 	for k,v in pairs(inv) do
+	if inv[k][4] == nil then
+		inv[k][4] = k
+	end
 	count = count+1
 	io.write(count)
 	io.write("     ")
 	io.write(tostring(inv[k][2]))
 		if v[3] ~= nil then
-			io.write("     "..tostring(k))
+			io.write("     "..tostring(v[4]))
 			io.write(" x "..tostring(v[3]).."\n")
 		else
-			print("     "..tostring(v[4]))
+			print("     "..tostring(v[3]))
 		end
 	end
 end
@@ -530,9 +536,9 @@ function useItem()
 			if string.lower(inv[k][4]) == string.lower(input) or tonumber(input) == count then
 				has = true
 				if tonumber(input) == count then
-					input = inv[k][4]
-					print("you used your "..input)
+					print("you used your "..inv[k][4])
 				end
+				input = k
 			end
 			count = count+1
 		end
