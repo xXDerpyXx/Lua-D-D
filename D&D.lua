@@ -571,15 +571,17 @@ while player["hp"] > 0 do  --ACTUAL CODE LOOP
 	local foundExit = false
 	while not enemyFound and not foundExit and player["hp"]>0 do
 		travel()
-	end
-	if foundExit then
-		nextLevel()
+		if foundExit then
+			nextLevel()
+		end
 	end
 end
 print("you died!")
 io.write("\nretry?\n")
 input = io.read("*line")
 if input == "y" or input == "yes" then
+	player["hp"] = 0
+	assert( table.save( player, "player.lua" ) == nil )
 	goto restart
 else
 	player["hp"] = 0
