@@ -254,9 +254,10 @@ function findItem()
 		inv[keyItem] = {p1,p2,p3}
 	else
 		if inv[keyItem][3] == nil then
-			inv[keyItem][3] = 1
-		else
-			inv[keyItem][3] = inv[keyItem][3]+1
+			inv[keyItem][3] = 0
+		end
+		inv[keyItem][3] = inv[keyItem][3]+1
+		if inv[keyItem[3]>1 then
 			print("You now have "..inv[keyItem][3].." "..keyItem.."s!")
 		end
 	end
