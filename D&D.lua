@@ -193,6 +193,9 @@ function commands(input)
 	if string.lower(input)=="give" then
 		findItem()
 	end
+	if string.lower(input)=="level" then
+		print("you are in the "..level)
+	end
 end
 
 function nextLevel()
@@ -401,6 +404,7 @@ function help()
 	print("   inv: look in your inventory")
 	print("   xp: check xp")
 	print("   hp: check hp")
+	print("   level: check current level")
 	print("   stats: display stats")
 	print("   player: display skills and player bits and bobs")
 	print("   save: save your stats (can't be done during a fight)")
