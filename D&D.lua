@@ -206,6 +206,7 @@ function nextLevel()
 	end
 	foundExit = false
 	stats["levelsVisted"] = stats["levelsVisted"]+1
+	save()
 end
 
 function encounter()
@@ -502,17 +503,19 @@ function useItem()
 	input = trim(input)
 	has = false
 	local count = -1
-	for k,v in pairs(inv) do
-		if string.lower(k)==string.lower(input) or tonumber(input) == count then
-			has = true
-			if tonumber(input) == count then
-				input = k
-				print("you used your "..input)
+	if enemy ~= nil then
+		for k,v in pairs(inv) do
+			if string.lower(k)==string.lower(input) or tonumber(input) == count then
+				has = true
+				if tonumber(input) == count then
+					input = k
+					print("you used your "..input)
+				end
 			end
+			count = count+1
 		end
-		count = count+1
 	end
-	if has == false then
+	if has == false and enemy ~= nil then
 		print("You don't have a "..input)
 	else
 		stats["itemUses"] = stats["itemUses"]+1
@@ -533,8 +536,12 @@ function useItem()
 				inv[selItem] = nil
 			end
 		else
-			attack()
-			enemyAttack()
+			if enemy ~= nil then
+				attack()
+				enemyAttack()
+			else
+				print("nothing to use "..input.." on")
+			end
 		end
 	end
 end
