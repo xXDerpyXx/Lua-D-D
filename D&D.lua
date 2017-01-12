@@ -247,8 +247,8 @@ function findItem()
 		p1 = item[k][1]
 		p2 = item[k][2]
 		p3 = item[k][3]
-		if inv[k][4] == nil then
-			inv[k][4] = tostring(k)
+		if item[k][4] == nil then
+			item[k][4] = tostring(k)
 		else
 			p4 = item[k][4]
 		end
