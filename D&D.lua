@@ -4,6 +4,9 @@ git commit -m "stuff"
 git push
 ]]--
 
+function trim(s)
+	return (s:gsub("^%s*(.-)%s*$", "%1"))
+end
 
 dofile("tableSave.lua")
 math.randomseed(os.time())
@@ -75,7 +78,7 @@ function createPlayer()
 	if input =="y" or input == "yes" or player["name"]==nil or player["hp"] == 0 then
 		if player["name"] == nil then
 			print("You have no game to load")
-		end
+		end 
 		stats = {
 		kills = 0,
 		itemUses = 0,
@@ -95,6 +98,7 @@ function createPlayer()
 		::redoName::
 		io.write("\nWhat is your name?\n")
 		input = io.read("*line")
+		input = trim(input)
 		if input == "" or input == " " then
 			goto redoName
 		end
@@ -156,6 +160,7 @@ playerINT
 ]]--
 
 function commands(input)
+	local input = trim(input)
 	if string.lower(input) == "inv" or string.lower(input) == "inventory" then
 		displayInv()
 	end
@@ -492,6 +497,7 @@ end
 function useItem()
 	io.write("use: ")
 	input=io.read("*line")
+	input = trim(input)
 	has = false
 	local count = -1
 	for k,v in pairs(inv) do
@@ -534,9 +540,14 @@ end
 help()
 if player["level"] == nil then
 	nextLevel()
+else
+	print("\nyou are now in the "..player["level"].."\n")
+	level = player["level"]
 end
 if player["paces"] == nil then
 	paces = 0
+else
+	paces = player["paces"]
 end
 enemyFound = false
 foundExit = false
