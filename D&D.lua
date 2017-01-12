@@ -524,27 +524,29 @@ function useItem()
 	else
 		stats["itemUses"] = stats["itemUses"]+1
 		selItem = string.lower(input)
-		if string.upper(inv[selItem][2])=="H" then
-			tempRand = math.random(1,4)-2
-			stats["hpGained"] = stats["hpGained"]+(inv[selItem][1]+tempRand)
-			player["hp"]=player["hp"]+(inv[selItem][1]+tempRand)
-			if player["hp"]>15 then
-				player["hp"] = 15
-			end
-			print("you have gained "..(inv[selItem][1]+tempRand).."HP, you now have "..player["hp"].."HP")
-			if inv[selItem][3] == nil then
-				inv[selItem][3] = 1
-			end
-			inv[selItem][3] = inv[selItem][3]-1
-			if inv[selItem][3] < 1 then
-				inv[selItem] = nil
-			end
-		else
-			if enemy ~= nil then
-				attack()
-				enemyAttack()
+		if inv[selItem] ~= nil then
+			if string.upper(inv[selItem][2])=="H" then
+				tempRand = math.random(1,4)-2
+				stats["hpGained"] = stats["hpGained"]+(inv[selItem][1]+tempRand)
+				player["hp"]=player["hp"]+(inv[selItem][1]+tempRand)
+				if player["hp"]>15 then
+					player["hp"] = 15
+				end
+				print("you have gained "..(inv[selItem][1]+tempRand).."HP, you now have "..player["hp"].."HP")
+				if inv[selItem][3] == nil then
+					inv[selItem][3] = 1
+				end
+				inv[selItem][3] = inv[selItem][3]-1
+				if inv[selItem][3] < 1 then
+					inv[selItem] = nil
+				end
 			else
-				print("nothing to use "..input.." on")
+				if enemy ~= nil then
+					attack()
+					enemyAttack()
+				else
+					print("nothing to use "..input.." on")
+				end
 			end
 		end
 	end
