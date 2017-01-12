@@ -1,17 +1,17 @@
 return {
 -- Table: {1}
 {
-   ["level"]="MEME_ZONE",
+   ["int"]=7,
    ["defb"]=5,
-   ["lvl"]=5,
-   ["xp"]=10,
-   ["hp"]=12,
+   ["level"]="Forest",
    ["paces"]=0,
    ["defm"]=5,
-   ["int"]=7,
-   ["name"]="Dammit",
-   ["dex"]=7,
-   ["defs"]=11,
-   ["str"]=8,
+   ["lvl"]=1,
+   ["str"]=3,
+   ["defs"]=5,
+   ["xp"]=0,
+   ["dex"]=3,
+   ["hp"]=15,
+   ["name"]="ugh",
 },
 }
