@@ -1,5 +1,5 @@
 io.popen('git add *')
-io.write("Patch Notes:")
+io.write("Patch Notes: ")
 input = io.read("*line")
-io.popen('git commit -m '..input)
+io.popen('git commit -m \"'..tostring(input).."\"")
 io.popen('git push')
