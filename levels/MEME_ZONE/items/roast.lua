@@ -1,3 +1,5 @@
 return{
-roast={10,"M"}
+name="roast",
+power=10,
+type="M"
 }

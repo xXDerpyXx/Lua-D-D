@@ -1,3 +1,5 @@
 return{
-woodensword={7,"S",1,"Wooden Sword"}
+name="Wooden Sword",
+power=7,
+type="S"
 }

@@ -1,3 +1,5 @@
 return{
-bean={7,"H"}
+name="bean",
+power=7,
+type="H"
 }

@@ -1,3 +1,5 @@
 return{
-potion={5,"H"}
+name="potion",
+power=5,
+type="H"
 }

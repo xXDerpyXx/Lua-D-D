@@ -234,6 +234,7 @@ function findItem()
 	--print(levelEnemies[level][1])
 	itemFile = nil
 	item = nil
+	has = false
 	while itemFile == nil do
 		tempNum = math.random(1,255)
 		itemFile = levelItems[level][tempNum]
@@ -242,39 +243,10 @@ function findItem()
 	--print(enemyFile)
 	--print("levels/"..level.."/enemies/"..enemyFile)
 	item = dofile("levels/"..level.."/items/"..itemFile..".lua")
-	for k,v in pairs(item) do
-		keyItem = tostring(k)
-		p1 = item[k][1]
-		p2 = item[k][2]
-		p3 = item[k][3]
-		if item[k][4] == nil then
-			item[k][4] = tostring(k)
-		else
-			p4 = item[k][4]
-		end
-	end
-	if p4 == nil then
-		p4 = tostring(keyItem)
-	end
 	print("")
-	print("You have found a "..p4.."!")
-	if inv[keyItem] == nil then
-		inv[keyItem] = {p1,p2,p3,p4}
-	else
-		if inv[keyItem][3] == nil then
-			inv[keyItem][3] = 0
-		end
-		inv[keyItem][3] = inv[keyItem][3]+1
-		if inv[keyItem][3]>1 then
-			if inv[keyItem][4] == nil then
-				inv[keyItem][4] = keyItem
-			end
-			print("You now have "..tostring(inv[keyItem][3]).." "..tostring(inv[keyItem][4]).."s!")
-		end
-	end
-	print("")
-	if inv[keyItem][4] == nil then
-		inv[keyItem][4] = tostring(keyItem)
+	print("You have found a "..item["name"].."!")
+	for k,v in pairs(inv) do
+		
 	end
 end
 
@@ -283,8 +255,8 @@ function displayInv()
 	print("Num:  Type: Name:")
 	local count = 0
 	for k,v in pairs(inv) do
-	if inv[k][4] == nil then
-		inv[k][4] = k
+		if inv[k][4] == nil then
+			inv[k][4] = k
 	end
 	count = count+1
 	io.write(count)
