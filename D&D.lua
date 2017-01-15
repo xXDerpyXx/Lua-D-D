@@ -78,7 +78,7 @@ function createPlayer()
 	if input =="y" or input == "yes" or player["name"]==nil or player["hp"] == 0 then
 		if player["name"] == nil then
 			print("You have no game to load")
-		end 
+		end
 		stats = {
 		kills = 0,
 		itemUses = 0,
@@ -86,7 +86,7 @@ function createPlayer()
 		hpGained = 0,
 		hpLost = 0
 		}
-		
+
 		player = {
 		hp=15,
 		defs=5,
@@ -163,38 +163,31 @@ function commands(input)
 	local input = trim(input)
 	if string.lower(input) == "inv" or string.lower(input) == "inventory" then
 		displayInv()
-	end
-	if string.lower(input) =="stats" then
+	elseif string.lower(input) =="stats" then
 		displayStats()
-	end
-	if string.lower(input) == "run" then
+	elseif string.lower(input) == "run" then
 		if run() then
 			runWin = true
 		else
 			runLoss = true
 		end
 		enemyAttack()
-	end
-	if string.lower(input)=="use" then
-		useItem()
-	end
-	if string.lower(input)=="xp" then
+	elseif string.sub(string.lower(input),1,3)=="use" then
+		useItem(input)
+	elseif string.lower(input)=="xp" then
 		print("you have "..player["xp"].."XP")
-	end
-	if string.lower(input)=="hp" or string.lower(input)=="health" then
+	elseif string.lower(input)=="hp" or string.lower(input)=="health" then
 		print("you have "..player["hp"].."HP")
-	end
-	if string.lower(input)=="player" then
+	elseif string.lower(input)=="player" then
 		displayPlayer()
-	end
-	if string.lower(input)=="help" then
+	elseif string.lower(input)=="help" then
 		help()
-	end
-	if string.lower(input)=="give" then
+	elseif string.lower(input)=="give" then
 		findItem()
-	end
-	if string.lower(input)=="level" then
+	elseif string.lower(input)=="level" then
 		print("you are in the "..level)
+	elseif string.lower(input)=="encounter" then
+		enemyFound = true
 	end
 end
 
@@ -203,7 +196,7 @@ function nextLevel()
 	if levelCount == nil or levelCount == 0 then
 		print("ERR: 0 levels found")
 	else
-		repeat 
+		repeat
 			currentLevel = levels[math.random(1,levelCount)]
 		until currentLevel ~= level
 		print("You have fallen and ended up in the "..currentLevel.."...\n")
@@ -246,7 +239,7 @@ function findItem()
 	print("")
 	print("You have found a "..item["name"].."!")
 	for k,v in pairs(inv) do
-		
+
 	end
 end
 
@@ -495,10 +488,8 @@ function travel()
 	end
 end
 
-function useItem()
-	io.write("use: ")
-	input=io.read("*line")
-	input = trim(input)
+function useItem(input)
+	input = string.sub(input,5)
 	has = false
 	local count = -1
 	if enemy ~= nil then
@@ -506,7 +497,7 @@ function useItem()
 			if inv[k][4] == nil then
 				inv[k][4] = k
 			end
-			if string.lower(inv[k][4]) == string.lower(input) or tonumber(input) == count then
+			if (string.lower(inv[k][4]) == string.lower(input)) or (tonumber(input) == count) then
 				has = true
 				if tonumber(input) == count then
 					print("you used your "..inv[k][4])
